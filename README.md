@@ -106,7 +106,7 @@ raw.fees ──▶ staging(dedup) ──▶ reporting(aggregated models)
 
 1. **GCP Project** with BigQuery and GCS APIs enabled
 2. **gcloud CLI** installed and authenticated
-3. **dbt** installed with BigQuery adapter (`pip install dbt-bigquery`)
+3. **Python dependencies** installed (see Setup below)
 4. **Terraform** installed
 5. **GCP Service Account** with the following IAM roles:
    - `roles/bigquery.dataEditor` — create/write BigQuery tables and datasets
@@ -120,15 +120,22 @@ raw.fees ──▶ staging(dedup) ──▶ reporting(aggregated models)
 # 1. Set service account credentials
 export GOOGLE_APPLICATION_CREDENTIALS="/path/to/service-account.json"
 
-# 2. Deploy infrastructure (GCS bucket + BigQuery datasets)
+# 2. Create and activate virtual environment
+python -m venv venv
+source venv/bin/activate
+
+# 3. Install Python dependencies
+pip install -r scripts/requirements.txt
+pip install -r dbt/requirements.txt
+
+# 4. Deploy infrastructure (GCS bucket + BigQuery datasets)
 cd terraform
 cp terraform.tfvars.example terraform.tfvars
 # Edit terraform.tfvars with your project ID
 terraform init
 terraform apply
 
-# 3. Install dbt packages
-source venv/bin/activate
+# 5. Install dbt packages
 cd ../dbt
 dbt deps
 ```
