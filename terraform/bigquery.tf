@@ -7,7 +7,7 @@
 resource "google_bigquery_dataset" "raw" {
   dataset_id    = "raw"
   friendly_name = "Raw Data"
-  description   = "Source data ingested from GCS. Loaded via Python pipeline (pipelines/ingest_fees.py)."
+  description   = "Source data ingested from GCS. Loaded via Python pipeline (scripts/ingest_fees.py)."
   location      = var.data_location
   project       = var.project_id
 
@@ -49,7 +49,7 @@ resource "google_bigquery_dataset" "reporting" {
 }
 
 # -----------------------------------------------------------------------------
-# Note: raw.fees table is created and managed by pipelines/ingest_fees.py
+# Note: raw.fees table is created and managed by scripts/ingest_fees.py
 # Schema, partitioning, and lifecycle are defined in the Python ingestion script
 # -----------------------------------------------------------------------------
 

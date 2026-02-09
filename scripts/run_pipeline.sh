@@ -64,7 +64,7 @@ if [[ "${SKIP_INGEST}" == "false" ]]; then
     fi
     echo "Using credentials: ${GOOGLE_APPLICATION_CREDENTIALS}"
 
-    python "${PROJECT_ROOT}/pipelines/ingest_fees.py"
+    python "${SCRIPT_DIR}/ingest_fees.py"
     echo ""
 else
     echo ">>> Step 1/3: Ingestion SKIPPED (--skip-ingest)"
