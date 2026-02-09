@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: dim_clients
+    description: |
+      Client dimension table - one row per client.
+
+      ## Key Fields
+      - **first_fee_date**: Defines the client's cohort and LTV measurement start
+      - **first_adviser_id**: Used for LTV attribution (first-touch model)
+      - **cohort_month**: YYYY-MM format for cohort analysis
+
+      ## How first_adviser_id is Determined
+      The adviser_id from the client's earliest fee record, ordered by:
+      1. fee_date (ascending)
+      2. fee_id (ascending) - deterministic tie-breaker if multiple fees on same day
+    columns:
+      - name: client_id
+        description: "Primary key - hashed client identifier"
+        tests:
+          - unique
+          - not_null
+
+      - name: first_fee_date
+        description: "Date of client's first fee payment (cohort date)"
+        tests:
+          - not_null
+
+      - name: first_adviser_id
+        description: "Adviser associated with client's first fee (for LTV attribution)"
+        tests:
+          - not_null
+
+      - name: cohort_month
+        description: "Month of first fee (YYYY-MM format) for cohort analysis"
+        tests:
+          - not_null

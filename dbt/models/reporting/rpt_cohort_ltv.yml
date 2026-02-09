@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: rpt_cohort_ltv
+    description: |
+      Cohort-level LTV aggregations.
+      A cohort is defined by the month in which a client first paid a fee.
+    columns:
+      - name: cohort_month
+        description: "Cohort identifier (YYYY-MM)"
+        tests:
+          - unique
+          - not_null
+
+      - name: client_count
+        description: "Number of clients in cohort"
+
+      - name: avg_ltv_1_month
+        description: "Average 1-month LTV for cohort"
+
+      - name: avg_ltv_3_month
+        description: "Average 3-month LTV for cohort"
+
+      - name: avg_ltv_6_month
+        description: "Average 6-month LTV for cohort"
+
+      - name: total_ltv_1_month
+        description: "Sum of 1-month LTV across cohort"
+
+      - name: total_ltv_3_month
+        description: "Sum of 3-month LTV across cohort"
+
+      - name: total_ltv_6_month
+        description: "Sum of 6-month LTV across cohort"
+
+      - name: median_ltv_6_month
+        description: "Median 6-month LTV for cohort"

@@ -1,0 +1,7 @@
+# Example Terraform variables
+# Copy this file to terraform.tfvars and update with your values
+
+project_id    = "your-gcp-project-id"
+region        = "europe-west2"
+environment   = "dev"
+data_location = "EU"

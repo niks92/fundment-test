@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: rpt_client_ltv
+    description: |
+      Client lifetime value at 1, 3, and 6 month windows.
+      LTV is calculated as accumulated fees from the client's first fee date.
+    columns:
+      - name: client_id
+        description: "Primary key"
+        tests:
+          - unique
+          - not_null
+
+      - name: first_fee_date
+        description: "Date of client's first fee payment"
+
+      - name: ltv_1_month
+        description: "Total fees in first 1 month from first fee date"
+
+      - name: ltv_3_month
+        description: "Total fees in first 3 months from first fee date"
+
+      - name: ltv_6_month
+        description: "Total fees in first 6 months from first fee date"
+
+      - name: ltv_total
+        description: "Total fees across all time"

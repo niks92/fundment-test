@@ -1,0 +1,26 @@
+# dbt profile configuration for BigQuery
+# Copy this to ~/.dbt/profiles.yml and update with your project details
+
+fundment:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      project: fundment-test-486411
+      dataset: staging
+      location: EU
+      threads: 4
+      timeout_seconds: 300
+      priority: interactive
+      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"
+
+    # Production configuration (for CI/CD)
+    # prod:
+    #   type: bigquery
+    #   method: service_account
+    #   project: "{{ env_var('GCP_PROJECT_ID') }}"
+    #   dataset: staging
+    #   location: EU
+    #   threads: 4
+    #   keyfile: "{{ env_var('GCP_SERVICE_ACCOUNT_KEY') }}"

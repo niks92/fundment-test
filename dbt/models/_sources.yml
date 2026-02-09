@@ -1,0 +1,21 @@
+version: 2
+
+sources:
+  - name: raw
+    database: fundment-test-486411
+    schema: raw
+    description: "Raw data layer - immutable source of truth"
+    tables:
+      - name: fees
+        description: "Raw platform fees ingested from source CSV"
+        columns:
+          - name: client_id
+            description: "Hashed client identifier"
+          - name: client_nino
+            description: "UK National Insurance Number (PII)"
+          - name: adviser_id
+            description: "Adviser identifier"
+          - name: fee_date
+            description: "Date the fee was charged"
+          - name: fee_amount
+            description: "Fee amount in GBP"

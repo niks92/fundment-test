@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: stg_fees
+    description: |
+      Cleaned and deduplicated platform fees.
+      - Removes exact duplicate rows
+      - Validates data quality (non-null required fields)
+      - Adds row hash for idempotent processing
+      - Incremental with 3-day lookback window on fee_date
+      - Merges on fee_id to upsert reprocessed rows
+      - Use --full-refresh for historical corrections or schema changes
+    config:
+      materialized: incremental
+      unique_key: fee_id
+      on_schema_change: append_new_columns
+      partition_by:
+        field: fee_date
+        data_type: date
+        granularity: day
+    columns:
+      - name: fee_id
+        description: "Surrogate key generated from row hash"
+        tests:
+          - unique
+          - not_null
+
+      - name: client_id
+        description: "Hashed client identifier"
+        tests:
+          - not_null
+
+      - name: client_nino
+        description: "UK National Insurance Number (PII - restricted access)"
+        config:
+          meta:
+            contains_pii: true
+        policy_tags:
+          - 'projects/fundment-test-486411/locations/eu/taxonomies/4101037787822267158/policyTags/5358064739586398360'
+        tests:
+          - not_null
+
+      - name: adviser_id
+        description: "Adviser identifier"
+        tests:
+          - not_null
+
+      - name: fee_date
+        description: "Date the fee was charged"
+        tests:
+          - not_null
+
+      - name: fee_amount
+        description: "Fee amount in GBP (negative values represent refunds/corrections)"
+        tests:
+          - not_null

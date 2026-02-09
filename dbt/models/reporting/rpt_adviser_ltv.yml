@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: rpt_adviser_ltv
+    description: |
+      Adviser-level LTV aggregation using FIRST-TOUCH ATTRIBUTION.
+
+      ## Attribution Methodology
+      Each client's full LTV is attributed to exactly ONE adviser: the adviser
+      associated with the client's FIRST fee payment (from dim_clients.first_adviser_id).
+
+      ## Why First-Touch?
+      - Rewards client acquisition and onboarding
+      - Simple and deterministic (no splitting)
+      - Answers: "Which adviser brings in the most valuable clients?"
+
+      ## Limitations
+      - Does not credit advisers who inherit clients mid-lifecycle
+      - A client who changes advisers still has all LTV credited to original adviser
+
+      ## Alternative Approaches (not implemented)
+      - Last-touch: Credit to most recent adviser
+      - Time-weighted: Split credit based on tenure with each adviser
+      - Fee-weighted: Credit proportional to fees collected under each adviser
+    columns:
+      - name: adviser_id
+        description: "Primary key"
+        tests:
+          - unique
+          - not_null
+
+      - name: client_count
+        description: "Number of clients attributed to this adviser"
+
+      - name: total_client_ltv_1_month
+        description: "Sum of 1-month LTV across all attributed clients"
+
+      - name: total_client_ltv_3_month
+        description: "Sum of 3-month LTV across all attributed clients"
+
+      - name: total_client_ltv_6_month
+        description: "Sum of 6-month LTV across all attributed clients"
+
+      - name: total_client_ltv_all_time
+        description: "Sum of all-time LTV across all attributed clients"
+
+      - name: avg_client_ltv_6_month
+        description: "Average 6-month LTV per client for this adviser"
+
+      - name: rank_by_ltv_6_month
+        description: "Adviser rank by total 6-month client LTV (1 = highest)"
